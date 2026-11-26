@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyList>
+  <path>gokturk_rocket.ac</path>
+
+  <offsets>
+    <x-m>0</x-m>
+    <y-m>0</y-m>
+    <z-m>0</z-m>
+    <pitch-deg>0</pitch-deg>
+    <roll-deg>0</roll-deg>
+    <heading-deg>0</heading-deg>
+  </offsets>
+
+  <!--
+  ============================================================================
+   GÖKTÜRK  -  AKTİF CANARD ANİMASYONU  (DÜZELTİLMİŞ - feathering)
+  ============================================================================
+
+   SORUN (onceki surumde):
+     Eksenler AC3D (Y-yukari) cercevesinde yazilmisti. FlightGear bir .ac
+     dosyasini yuklerken Y ile Z'yi takas eder (FG: Z-yukari). Bu yuzden
+     "acIklIk/span" ekseni yanlis verilmis, kanatcik kendi mili etrafinda
+     DONMEK (feather) yerine dikey eksende SUPURME/koni (sweep) yapiyordu.
+
+   COZUM:
+     <axis> degerleri artik FlightGear cercevesindedir.
+     AC mesh span yonu -> FG ekseni donusumu (Y-up -> Z-up):
+        FG_x = AC_x ,  FG_y = AC_z ,  FG_z = -AC_y
+     Mesh'ten (inspect_ac.py ile dogrulandi) canard span yonleri:
+        Canard_1 span = AC +Z  -> FG ekseni (0, +1, 0)
+        Canard_2 span = AC +Y  -> FG ekseni (0,  0,-1)
+        Canard_3 span = AC -Z  -> FG ekseni (0, -1, 0)
+        Canard_4 span = AC -Y  -> FG ekseni (0,  0,+1)
+     Yani 1 ve 3 -> Y ekseni etrafinda, 2 ve 4 -> Z ekseni etrafinda doner.
+     (Onceki dosyada tam tersiydi: 1,3->Z ve 2,4->Y. Hatanin ozu buydu.)
+
+   MERKEZ:
+     Tum miller radyaldir ve govde MERKEZ EKSENINDEN gecer; bu yuzden
+     (x_mil, 0, 0) noktasi DORT milin de uzerindedir. x_mil = 1/4 veter:
+        x_mil = x_(hucum kenari) + 0.25*c_root = -0.120 + 0.25*0.120 = -0.090
+     Bu nokta + ilgili eksen = kanatcigin kendi acIklIk dogrultusundaki
+     mil cizgisini, ceyrek-veter hizasinda tam olarak verir (saf feathering).
+
+   ISARET / YON:
+     factor=+1 ile pozitif deflection, sag-el kuralinda DISA-radyal tork verir.
+     EGER bir kanatcik TERS yonde donerse: SADECE o kanatcigin <factor>'unu
+     +1'den -1'e cevir (mekanizma dogru, sadece yon tersidir).
+  ============================================================================
+  -->
+
+  <!-- Canard_1 : feather ekseni = FG (0, +1, 0) -->
+  <animation>
+    <type>rotate</type>
+    <object-name>Canard_1</object-name>
+    <property>/controls/flight/canard1-deflection-deg</property>
+    <factor>1</factor>
+    <center>
+      <x-m>-0.090</x-m>
+      <y-m>0.000</y-m>
+      <z-m>0.000</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Canard_2 : feather ekseni = FG (0, 0, -1) -->
+  <animation>
+    <type>rotate</type>
+    <object-name>Canard_2</object-name>
+    <property>/controls/flight/canard2-deflection-deg</property>
+    <factor>1</factor>
+    <center>
+      <x-m>-0.090</x-m>
+      <y-m>0.000</y-m>
+      <z-m>0.000</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>-1</z>
+    </axis>
+  </animation>
+
+  <!-- Canard_3 : feather ekseni = FG (0, -1, 0) -->
+  <animation>
+    <type>rotate</type>
+    <object-name>Canard_3</object-name>
+    <property>/controls/flight/canard3-deflection-deg</property>
+    <factor>1</factor>
+    <center>
+      <x-m>-0.090</x-m>
+      <y-m>0.000</y-m>
+      <z-m>0.000</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Canard_4 : feather ekseni = FG (0, 0, +1) -->
+  <animation>
+    <type>rotate</type>
+    <object-name>Canard_4</object-name>
+    <property>/controls/flight/canard4-deflection-deg</property>
+    <factor>1</factor>
+    <center>
+      <x-m>-0.090</x-m>
+      <y-m>0.000</y-m>
+      <z-m>0.000</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+</PropertyList>

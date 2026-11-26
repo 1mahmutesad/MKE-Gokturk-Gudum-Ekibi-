@@ -1,0 +1,83 @@
+
+m_total = 17.594;                   % Total rocket mass [kg]
+m_propellant = 1.964;               % Propellant mass [kg]
+I_total = 3785.0;                   % Total motor impulse [N*s]
+
+m_rocket = m_total - m_propellant;  % Rocket burnout mass [kg]
+
+Sref = 0.011689866;                 % Reference area [m^2]
+
+
+%% Thrust Curve
+
+time_thrust = xlsread('L1256WS_itki_zaman.xlsx');
+
+time   = time_thrust(:,1);
+thrust = time_thrust(:,2);
+
+g = 9.80665;
+
+
+%% CG vs Time
+
+time_Cg = xlsread('CG_location_Gokturk_1stageVson.xlsx');
+
+time2 = time_Cg(:,1);
+Cg    = time_Cg(:,2);
+
+
+%% =========================
+%  KTS 3D LUT
+% ==========================
+
+file  = 'KTS_Analiz_ve_Mach_Genisletilmis_Gokturk_1stageVson.xlsx';
+sheet = 'KTS_Mach_Genisletilmis';
+
+R = @(range) readmatrix(file,'Sheet',sheet,'Range',range);
+
+
+%% Breakpoints
+
+KTS_alpha_rad_vec = R('A11:A19')' * pi/180;
+
+KTS_delta_rad_vec = R('B10:H10') * pi/180;
+
+KTS_Mach_vec = [0.2 0.4 0.7 0.84];
+
+
+%% Delta CN
+
+dCN_table = cat(3, ...
+    R('B11:H19'), ...
+    R('B23:H31'), ...
+    R('B35:H43'), ...
+    R('B47:H55'));
+
+
+%% Delta CA
+
+dCA_table = cat(3, ...
+    R('B61:H69'), ...
+    R('B73:H81'), ...
+    R('B85:H93'), ...
+    R('B97:H105'));
+
+
+%% Delta Cm
+
+dCm_table = cat(3, ...
+    R('B111:H119'), ...
+    R('B123:H131'), ...
+    R('B135:H143'), ...
+    R('B147:H155'));
+
+
+%% =========================
+%  Servo Parameters
+% ==========================
+
+delta_max  = 15*pi/180;     % Maximum deflection [rad]
+
+servo_rate = 60*pi/180;     % Maximum servo rate [rad/s] - temporary
+
+servo_tau  = 0.05;          % Servo time constant [s] - temporary

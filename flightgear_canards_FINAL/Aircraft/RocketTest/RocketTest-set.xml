@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyList>
+  <sim>
+    <description>RocketTest - GOKTURK visual model with decal moved away from fin</description>
+    <author>Ali Kılıç / ChatGPT</author>
+    <flight-model>null</flight-model>
+    <aero>RocketTest</aero>
+    <model>
+      <path>Aircraft/RocketTest/Models/rocket.xml</path>
+    </model>
+    <status>alpha</status>
+  </sim>
+</PropertyList>
